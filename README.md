@@ -1,6 +1,14 @@
 # spanfsd
 
+One time setup:
+
 ```
-g++ -o spanfsd spanfsd.cpp
-./spanfsd
+meson setup builddir
+cd builddir/
+```
+
+Compiling and running (from `builddir/`):
+
+```
+meson --reconfigure && ninja && ./spanfsd
 ```
