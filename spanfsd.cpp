@@ -1,10 +1,11 @@
 #define FUSE_USE_VERSION 35
 
-#include <iostream>
+#include <stdio.h>
 #include <fuse.h>
 
 static void *xmp_init(struct fuse_conn_info *conn, struct fuse_config *cfg)
 {
+    printf("++++++++++++++++++ xmp_init\n");
     (void)conn;
     cfg->use_ino = 1;
 
@@ -22,19 +23,40 @@ static void *xmp_init(struct fuse_conn_info *conn, struct fuse_config *cfg)
     return NULL;
 };
 
+static int xmp_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi)
+{
+    printf("++++++++++++++++++ xmp_getattr %s\n", path);
+    return 0;
+};
+
+static int xmp_getxattr(const char *path, const char *name, char *value, size_t size)
+{
+    printf("++++++++++++++++++ xmp_getxattr %s\n", path);
+    return 0;
+};
+
+static int xmp_access(const char *path, int mask)
+{
+    printf("++++++++++++++++++ xmp_access %s\n", path);
+    return 0;
+};
+
 static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags)
 {
-    std::cout << "Looking in dir";
+    printf("++++++++++++++++++ xmp_readdir %s\n", path);
     return 0;
 };
 
 static const struct fuse_operations xmp_oper = {
+    .getattr = xmp_getattr,
+    .getxattr = xmp_getxattr,
     .readdir = xmp_readdir,
     .init = xmp_init,
+    .access = xmp_access,
 };
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Hello world!\n";
+    printf("++++++++++++++++++ main\n");
     return fuse_main(argc, argv, &xmp_oper, NULL);
 }

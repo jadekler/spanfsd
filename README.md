@@ -10,7 +10,7 @@ Compiling and running:
 
 ```
 export workdir=`pwd` 
-cd $workdir/builddir; meson --reconfigure && ninja && cd $(mktemp -d) && pwd && $workdir/builddir/spanfsd .
+cd $workdir/builddir; meson --reconfigure && ninja && cd $(mktemp -d) && echo && pwd && echo && $workdir/builddir/spanfsd .
 cd $workdir
 ```
 
