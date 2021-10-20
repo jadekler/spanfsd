@@ -10,5 +10,12 @@ Compiling and running:
 
 ```
 export workdir=`pwd` 
-cd $workdir/builddir; meson --reconfigure && ninja && cd $(mktemp -d) && pwd && $workdir/spanfsd .; cd $workdir
+cd $workdir/builddir; meson --reconfigure && ninja && cd $(mktemp -d) && pwd && $workdir/builddir/spanfsd .
+cd $workdir
+```
+
+To debug, pass the following flags:
+
+```
+$workdir/builddir/spanfsd . -f -s -d
 ```
