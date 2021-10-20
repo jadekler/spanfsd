@@ -4,11 +4,11 @@ One time setup:
 
 ```
 meson setup builddir
-cd builddir/
 ```
 
-Compiling and running (from `builddir/`):
+Compiling and running:
 
 ```
-meson --reconfigure && ninja && ./spanfsd
+export workdir=`pwd` 
+cd $workdir/builddir; meson --reconfigure && ninja && cd $(mktemp -d) && pwd && $workdir/spanfsd .; cd $workdir
 ```
