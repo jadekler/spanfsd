@@ -1,6 +1,9 @@
 #define FUSE_USE_VERSION 35
 
 #include <stdio.h>
+#include <errno.h>
+#include <sys/xattr.h>
+
 #include <fuse.h>
 
 static void *xmp_init(struct fuse_conn_info *conn, struct fuse_config *cfg)
@@ -26,12 +29,23 @@ static void *xmp_init(struct fuse_conn_info *conn, struct fuse_config *cfg)
 static int xmp_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi)
 {
     printf("++++++++++++++++++ xmp_getattr %s\n", path);
+
+    int res = lstat(path, stbuf);
+    if (res == -1)
+        return -errno;
+
     return 0;
 };
 
 static int xmp_getxattr(const char *path, const char *name, char *value, size_t size)
 {
-    printf("++++++++++++++++++ xmp_getxattr %s\n", path);
+    printf("++++++++++++++++++ xmp_getxattr path=%s, name=%s, value=%s\n", path, name, value);
+
+    int res = lgetxattr(path, name, value, size);
+    if (res == -1)
+        return -errno;
+    return res;
+
     return 0;
 };
 
